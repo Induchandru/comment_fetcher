@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Comment Fetcher</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: beige; }
+    textarea { width: 100%; height: 150px;max-width: 700px; margin: 0 auto; border: 4px dotted blue; }
+    button {     margin-top: 25px;
+    font-size: 15px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    }
+    .fetchbtn
+    {
+      background: #ffea0e;
+      padding: 15px 40px;
+      border-radius: 30px;
+      border: 2px solid #8e8eaa; 
+      transition: all 300ms ease-in-out;
+    }
+    .fetchbtn:hover{
+      background:#8e8eaa;  
+      color:#fff;
+      border-color:#ffea0e;
+    }
+    .clearbtn
+    {
+          background: #49654fb5;
+        transition: all 300ms ease-in-out;
+        padding: 15px 40px;
+        border-radius: 30px;
+        border: 2px solid #49654fb5;
+        margin-left: 15px;
+        color: #fff;
+    }
+    .clearbtn:hover{
+      background: #fdd1c9; 
+      color:#000;
+      border-color:#8e8eaa;
+    }
+    .mod-task
+    {
+      text-align: center;
+    }
+    table { width: 100%; margin-top: 50px; border-collapse: collapse; }
+    th, td { border: 1px solid #c4baba; padding: 8px; }
+    td{
+         background: #f5f4f4de;
+    color: #6c4f4f;
+    font-size: 15px;
+    }
+    th{
+         background: #818720;
+    padding: 20px;
+    color: #fff;
+    font-family: system-ui;
+    font-size: 16px;
+    }
+    h1{
+    color: blue;
+    font-family: cursive;
+    font-size: 40px;
+    }
+    h2{
+          font-family: math;
+    }
+    #results {
+      display: none;
+    }
+    
+  </style>
+</head>
+<body>
+  <!-- <video autoplay muted loop id="bg-video">
+    <source src="public/videos/bg2.mp4" type="video/mp4">
+  </video> -->
+  <section class="mod-task">
+    <h1>Comment Moderation PO</h1>
+    <h2>Enter the URLs you wish to test!</h2>
+    <textarea id="urls" placeholder="Enter URLs, one per line"></textarea>
+    <br>
+    <button class="fetchbtn" onclick="fetchComments()">Fetch</button>
+    <button class="clearbtn " onclick="clearData()">Clear</button>
+  </section>
+  <table id="results">
+    <thead>
+      <tr><th>URL</th><th>Comment</th><th>Classification</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="public/script.js"></script>
+</body>
+</html>
