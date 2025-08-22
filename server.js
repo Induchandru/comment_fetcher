@@ -22,8 +22,15 @@ app.post("/fetch-comments", async (req, res) => {
     try {
       const browser = await puppeteer.launch({
         headless: "new",
-        args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        executablePath: puppeteer.executablePath(), // ✅ important for Render
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-gpu",
+        ],
       });
+
       const page = await browser.newPage();
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
 
@@ -42,7 +49,7 @@ app.post("/fetch-comments", async (req, res) => {
         return {
           url,
           comment,
-          classification: isWarrant ? "Does Warrant" : "Does Not Warrant"
+          classification: isWarrant ? "Does Warrant" : "Does Not Warrant",
         };
       });
 
@@ -51,11 +58,10 @@ app.post("/fetch-comments", async (req, res) => {
     } catch (err) {
       console.error(`Error scraping ${url}:`, err.message);
 
-      // ✅ Push an error entry instead of breaking JSON
       results.push({
         url,
         comment: `Error fetching comments: ${err.message}`,
-        classification: "Error"
+        classification: "Error",
       });
     }
   }
