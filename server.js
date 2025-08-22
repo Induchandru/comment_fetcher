@@ -5,15 +5,13 @@ const puppeteer = require("puppeteer");
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// Serve static frontend files (index.html, script.js, etc.)
 app.use(express.static(__dirname));
 
 app.post("/fetch-comments", async (req, res) => {
   const { urls } = req.body;
 
   if (!urls || !Array.isArray(urls)) {
-    return res.json([]); // ✅ Always return array
+    return res.json([]);
   }
 
   let results = [];
@@ -21,8 +19,7 @@ app.post("/fetch-comments", async (req, res) => {
   for (const url of urls) {
     try {
       const browser = await puppeteer.launch({
-        headless: "new",
-        executablePath: puppeteer.executablePath(), // ✅ important for Render
+        headless: true,
         args: [
           "--no-sandbox",
           "--disable-setuid-sandbox",
@@ -34,7 +31,6 @@ app.post("/fetch-comments", async (req, res) => {
       const page = await browser.newPage();
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
 
-      // ✅ Extract comments (adjust selectors as needed)
       const comments = await page.evaluate(() => {
         return Array.from(document.querySelectorAll("p"))
           .map(el => el.innerText.trim())
@@ -43,7 +39,6 @@ app.post("/fetch-comments", async (req, res) => {
 
       await browser.close();
 
-      // ✅ Classify comments
       const classified = comments.map(comment => {
         const isWarrant = /(bad|warrant|issue|problem|not good)/i.test(comment);
         return {
@@ -57,7 +52,6 @@ app.post("/fetch-comments", async (req, res) => {
 
     } catch (err) {
       console.error(`Error scraping ${url}:`, err.message);
-
       results.push({
         url,
         comment: `Error fetching comments: ${err.message}`,
@@ -66,8 +60,8 @@ app.post("/fetch-comments", async (req, res) => {
     }
   }
 
-  res.json(results); // ✅ Always send array
+  res.json(results);
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
