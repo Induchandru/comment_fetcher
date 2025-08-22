@@ -17,6 +17,11 @@ async function fetchComments() {
 
     const data = await response.json();
 
+    // ✅ Ensure data is an array before using reduce
+    if (!Array.isArray(data)) {
+      throw new Error(typeof data === "string" ? data : "Invalid server response");
+    }
+
     // ✅ Group comments by URL
     const grouped = data.reduce((acc, { url, comment, classification }) => {
       if (!acc[url]) acc[url] = [];
@@ -49,6 +54,7 @@ async function fetchComments() {
 
   } catch (err) {
     alert("Error fetching comments: " + err.message);
+    console.error("Fetch error:", err);
   } finally {
     // ✅ Hide loading and show time
     const endTime = performance.now();
