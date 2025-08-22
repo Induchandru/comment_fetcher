@@ -72,17 +72,24 @@
   </style>
 </head>
 <body>
-  <!-- <video autoplay muted loop id="bg-video">
-    <source src="public/videos/bg2.mp4" type="video/mp4">
-  </video> -->
   <section class="mod-task">
     <h1>Comment Moderation PO</h1>
     <h2>Enter the URLs you wish to test!</h2>
     <textarea id="urls" placeholder="Enter URLs, one per line"></textarea>
     <br>
     <button class="fetchbtn" onclick="fetchComments()">Fetch</button>
-    <button class="clearbtn " onclick="clearData()">Clear</button>
+    <button class="clearbtn" onclick="clearData()">Clear</button>
+
+    <!-- Loading message -->
+    <div id="loading" style="display:none; font-weight:bold; margin-top:10px; color:blue;">
+      ⏳ Please wait, fetching comments...
+    </div>
+
+    <!-- Time taken -->
+    <div id="time-taken" style="display:none; margin-top:10px; color:green;">
+    </div>
   </section>
+
   <table id="results">
     <thead>
       <tr><th>URL</th><th>Comment</th><th>Classification</th></tr>
