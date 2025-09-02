@@ -20,6 +20,7 @@ app.post("/fetch-comments", async (req, res) => {
     try {
       const browser = await puppeteer.launch({
         headless: true,
+        executablePath: puppeteer.executablePath(), // ✅ ensures Puppeteer finds Chromium
         args: [
           "--no-sandbox",
           "--disable-setuid-sandbox",
